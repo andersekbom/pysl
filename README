@@ -1,6 +1,0 @@
-PySL
-
-This is a Python library to access SL:s real-time APIs.
-
-It was initially written in PHP by Robin Linderberg, 
-and then pythonified by Anders Ekbom (@dsrg).
