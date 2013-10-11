@@ -59,7 +59,7 @@ class PySL(object):
       
     ## Methods for the Realtid API #############################################
     def get_site(self, stationSearch, format=None):
-        params = '?stationsearch=' + urllib.quote(stationSearch) + '&'
+        params = '?stationSearch=' + urllib.quote(stationSearch) + '&'
         # Old ternary if-call kept for backup
         #return self.method('GetSite', params, format if format != None else None)
         return self.method('GetSite', params, format)
