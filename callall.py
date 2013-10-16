@@ -1,9 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+###################################################################
+#
+# Exempel/testfil för att köra igenom alla metoder i pysl.py.
+# Lägg in din API-nyckel och avkommentera de rader du vill testa.
+#
+###################################################################
+
 import pysl
 
-pysl = pysl.PySL(<API_KEY>)
+pysl = pysl.PySL(<YOUR_API_KEY>)
 
 ## Realtid ################################################################
 pysl.set_api('realtid')
@@ -24,5 +31,5 @@ pysl.set_api('storningsinfo')
 
 ## Reseplanerare ###########################################################
 pysl.set_api('reseplanerare')
-params = {'S':'Hornstull','Z':'Slussen','V1':'T-centralen'}
+#params = {'S':'Hornstull','Z':'Slussen','V1':'T-centralen'}
 #print pysl.reseplanerare('xml',**params)
