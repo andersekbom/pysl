@@ -27,8 +27,6 @@ class PySL(object):
         self.host = 'https://api.trafiklab.se/sl/'
         # Contains one of the four APIs   
         self.api = None
-        # Contains data format
-        # TODO: Saknas i metodanropet?
 
     # Set API
     def set_api(self,api):
@@ -144,5 +142,5 @@ class PySL(object):
 
         #return utf8_decode(response);
        
-        # TODO: unicode().decode() to utf-8
+        # TODO: To utf-8 now or in later steps?
         return r.text
