@@ -10,14 +10,13 @@
 # Pythonifierad av Anders Ekbom (@dsrg).
 # För Python 2.7.
 #
-# 
+# Kräver Request för HTTP-anropen, 
+# se http://www.python-requests.org/en/latest/user/install/ för detaljer
+#
 #############################################################
-import sys          ## Needed for exit() function
+
 import urllib       ## Replaces PHP rawurlencode
 import requests     ## Curl replacement for Python, see python-requests.org
-
-
-# PySL class
 
 class PySL(object):
     def __init__(self, key):
@@ -112,7 +111,7 @@ class PySL(object):
         for key in params:
           if key not in valid_params:
             print key + ' is not a valid parameter.'
-            exit();
+            break
           paramstr += '&' + key + '=' + urllib.quote(params[key])
         
         paramstr += '&'
@@ -120,7 +119,7 @@ class PySL(object):
         return self.method('', paramstr, format)
       
 
-    # Build query and cURL #####################################################
+    # Build query and make Request #####################################################
     def build_query(self, method, params, format=None):
 
         if (format != None):
@@ -129,18 +128,4 @@ class PySL(object):
             url = self.host + self.api + method + '.json' + params + str(self.key)
 
         r = requests.get(url)
-        
-        # TODO: Check the corresponding cURL options in Requests
-        #curl_setopt(ch, CURLOPT_URL, url);
-        #curl_setopt(ch, CURLOPT_RETURNTRANSFER, 1);
-        #curl_setopt(ch, CURLOPT_HEADER, 0);
-        # Accept any server certificate #
-        #curl_setopt(ch, CURLOPT_SSL_VERIFYPEER, false);
-        
-        #response = curl_exec(ch);
-        #curl_close(ch);
-
-        #return utf8_decode(response);
-       
-        # TODO: To utf-8 now or in later steps?
         return r.text
