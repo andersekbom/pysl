@@ -15,9 +15,8 @@ se http://www.python-requests.org/en/latest/user/install/ för detaljer.
 
 """
 
-import urllib       # Replaces PHP rawurlencode
-
-import requests     # Curl replacement for Python, see python-requests.org
+import urllib       # For URL encoding purposes
+import requests     # See python-requests.org
 
 class PySL(object):
     def __init__(self, key):
@@ -29,7 +28,7 @@ class PySL(object):
         self.api = None
 
     def set_api(self,api):
-        """ Set API """
+        """ Sets API. (Not really Pythonic to use getters and setters, but...) """
         api = api.lower()
         if(api=='realtid'):
             self.api = 'realtid/'
@@ -40,18 +39,18 @@ class PySL(object):
         elif(api=='reseplanerare'):
             self.api = 'reseplanerare'
         else:
-            print 'No such API.'
+            print 'There is no API named "%s". Exiting.' % api
+            exit()
       
     
     def _method(self, method, params, format=None):
         """ Generic function for methods """
         if (format != None):
-          if format.lower() == 'json':
-            return self._build_query(method, params, 'json');
-          elif format.lower() == 'xml':
-            return self._build_query(method, params, 'xml');
+          if (format.lower() == 'json' or format.lower() == 'xml'):
+            return self._build_query(method, params, format);
           else:
-            print 'Invalid format'
+            print 'Invalid format "%s", use "xml", "json" or none. Exiting.' % format
+            exit()
         else:
             return self._build_query(method, params);
 
@@ -66,7 +65,7 @@ class PySL(object):
         return self._method('GetDepartures', params, format)
 
     def get_dps_departures(self, siteId, timeWindow=None, format=None):
-        if (timeWindow != None):
+        if (timeWindow != None): # Valid time windows are 10, 30 and 60.
           params = '?siteId=' + urllib.quote(str(siteId)) + '&timeWindow=' + timeWindow + '&'
         else:
           params = '?siteId=' + urllib.quote(str(siteId)) + '&'
@@ -89,7 +88,9 @@ class PySL(object):
         return self._method('GetAllDeviationsRawData', params, format)
       
     def get_deviations(self, fDate, tDate, mode=None, format=None):
-        if (mode!=None):
+        # Valid transport modes are "bus", "train", "metro" and "tram".
+        # Date format is yyyy-mm-dd.
+        if (mode!=None): 
           params = '?transportMode=' + mode + '&fromDate=' + fDate + '&toDate=' + tDate + '&'
         else:
           params = '?fromDate=' + fDate + '&toDate=' + tDate + '&'
@@ -111,15 +112,12 @@ class PySL(object):
                         'Time', 'Timesel', 
                         'Lang']
         paramstr = '?'
-        
         for key in params:
           if key not in valid_params:
-            print key + ' is not a valid parameter.'
-            break
+            print '"%s" is not a valid parameter. Exiting.' % key
+            exit()
           paramstr += '&' + key + '=' + urllib.quote(params[key])
-        
         paramstr += '&'
-        
         return self._method('', paramstr, format)
       
 
